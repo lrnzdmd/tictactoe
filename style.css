@@ -3,11 +3,11 @@ html, body {
     margin:0;
     padding:0;
     box-sizing: border-box;
-    background-color: cornflowerblue;
+    background-color: #004080;
 }
 
 .header {
-    color:aliceblue;
+    color:#fff;
     display: grid;
     grid-template-columns: 30vw 10vw 30vw;
     gap:2rem;
@@ -16,11 +16,11 @@ html, body {
 }
 
 .playerscorebox {
-    background-color: rgb(60, 90, 145);
+    border:3px solid #fff;
     border-radius: 10px;
     padding: 1rem;
     padding: 0 1rem 0 1rem;
-    box-shadow: 0 1px 6px #000000b4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-between;
 }
@@ -33,12 +33,64 @@ html, body {
 }
 
 button {
-    color: aliceblue;
-    background-color: rgb(60, 90, 145);
+    color: #fff;
+    background-color: #004080;
+    border:3px solid #fff;
     align-self: center;
     font-weight: 600;
     padding:1rem 1rem 1rem 1rem;
-    border:none;
     border-radius: 10px;
     box-shadow: 0 1px 6px #000000b4;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+}
+
+.gameboard {
+    border:3px solid #fff;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 15vw);
+    grid-template-rows: repeat(3, 15vw);
+    justify-content: center;
+    padding:1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.grid {
+    color: #fff;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 7rem;
+}
+
+.grid[x="0"][y="1"]{
+    border:2px solid #fff;
+    border-top: none;
+    border-bottom: none;
+}
+
+.grid[x="1"][y="0"]{
+    border:2px solid #fff;
+    border-left: none;
+    border-right: none;
+}
+
+.grid[x="1"][y="2"]{
+    border:2px solid #fff;
+    border-right: none;
+    border-left: none;
+}
+
+.grid[x="2"][y="1"]{
+    border:2px solid #fff;
+    border-bottom: none;
+    border-top: none;
+}
+
+.grid[x="1"][y="1"]{
+    border:2px solid #fff;
+    
 }
