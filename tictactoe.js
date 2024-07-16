@@ -136,6 +136,3 @@ const player2 = new Player("p2", 2);
 const GM = new GameManager(player1,player2,board);
 
 GM.newGame();
-
-
-board.printBoard();
