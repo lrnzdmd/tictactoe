@@ -1,3 +1,5 @@
+// Game board object constructor
+
 function Gameboard() {
     const board = new Array(3).fill(null).map(() => new Array(3).fill(" "));
 
