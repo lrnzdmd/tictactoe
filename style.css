@@ -4,10 +4,11 @@ html, body {
     padding:0;
     box-sizing: border-box;
     background-color: #004080;
+    color:#fff;
 }
 
 .header {
-    color:#fff;
+    
     display: grid;
     grid-template-columns: 30vw 10vw 30vw;
     gap:2rem;
@@ -15,7 +16,7 @@ html, body {
     padding: 1rem;
 }
 
-.playerscorebox {
+.playerscorebox , .wintextbox{
     border:3px solid #fff;
     border-radius: 10px;
     padding: 1rem;
@@ -23,6 +24,16 @@ html, body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-between;
+}
+
+#restartgamebtn {
+    display:none;
+}
+
+#wintext {
+    display: none;
+    padding: 1rem;
+    font-weight: 600;
 }
 
 #p1side {
@@ -46,14 +57,17 @@ button {
 .content {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .gameboard {
     border:3px solid #fff;
     border-radius: 10px;
     display: grid;
-    grid-template-columns: repeat(3, 15vw);
-    grid-template-rows: repeat(3, 15vw);
+    grid-template-columns: repeat(3, 10vw);
+    grid-template-rows: repeat(3, 10vw);
     justify-content: center;
     padding:1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);

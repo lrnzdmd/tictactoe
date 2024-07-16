@@ -38,8 +38,20 @@ function Player(name, playerNumber) {
     this.resetScore = () => {this.score = 0;}
 }
 
+// Display manager object
+
+function DisplayManager() {
+    this.p1scoretext = document.getElementById("p1score");
+    this.p1nametext = document.getElementById("p1name");
+    this.p2scoretext = document.getElementById("p2score");
+    this.p2nametext = document.getElementById("p2name");
+    this.gridcells = document.querySelectorAll(".grid");
+    this.startbutton = document.getElementById("startgamebtn");
+    this.restartbutton = document.getElementById("restartgamebtn");
+}
+
 // Game manager object constructor
-function GameManager(player1, player2, board) {
+function GameManager(player1, player2, board, displayman) {
     this.player1 = player1;
     this.player2 = player2;
     this.board = board;
@@ -130,9 +142,16 @@ function GameManager(player1, player2, board) {
         
     }
 }
-const board = new Gameboard();
-const player1 = new Player("p1",1);
-const player2 = new Player("p2", 2);
-const GM = new GameManager(player1,player2,board);
 
-GM.newGame();
+const startbtn = document.getElementById("startgamebtn");
+
+startbtn.addEventListener("click", function(){
+    const p1name = prompt("Player 1, what's your name?");
+    const p2name = prompt("Player 2, what's your name?");
+    const player1 = new Player(p1name, 1);
+    const player2 = new Player(p2name, 2);
+    const board = new Gameboard();
+    const displayman = new DisplayManager();
+    const GM = new GameManager(player1, player2, board, displayman);
+});
+
