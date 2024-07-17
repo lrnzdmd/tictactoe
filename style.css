@@ -20,7 +20,6 @@ html, body {
 .playerscorebox , .wintextbox{
     border:3px solid #fff;
     border-radius: 10px;
-    padding: 1rem;
     padding: 0 1rem 0 1rem;
     box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5), inset 1px 1px 8px rgba(0, 0, 0, 0.5);
     display: flex;
@@ -42,6 +41,10 @@ html, body {
 }
 #p2side {
     grid-column: 3;
+}
+
+.score, .name {
+    align-self: center;
 }
 
 button {
@@ -109,4 +112,54 @@ button {
 .grid[x="1"][y="1"]{
     border:2px solid #fff;
     
+}
+
+@media only screen and (max-width: 768px) {
+
+    h3 {
+        font-size: 13px;
+    }
+
+    .header {
+    
+        display: grid;
+        grid-template-columns: 35vw 20vw 35vw;
+        gap:1rem;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .gameboard {
+        border:3px solid #fff;
+        border-radius: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, 25vw);
+        grid-template-rows: repeat(3, 25vw);
+        justify-content: center;
+        padding:1rem;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5), inset 1px 1px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    button {
+        color: #fff;
+        background-color: #004080;
+        border:3px solid #fff;
+        align-self: center;
+        font-size: 10px;
+        font-weight: 600;
+        padding:1rem 1rem 1rem 1rem;
+        border-radius: 10px;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5), inset 1px 1px 8px rgba(0, 0, 0, 0.5);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .playerscorebox , .wintextbox{
+        border:3px solid #fff;
+        border-radius: 10px;
+        padding: 0 0.5rem 0 0.5rem;
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5), inset 1px 1px 8px rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: space-between;
+    }
+
 }
