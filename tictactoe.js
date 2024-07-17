@@ -228,14 +228,19 @@ function GameManager(player1, player2, board, displayman) {
 
 const startbtn = document.getElementById("startgamebtn");
 
-startbtn.addEventListener("click", function(){
-    const p1name = prompt("Player 1, what's your name?");
-    const p2name = prompt("Player 2, what's your name?");
+startbtn.addEventListener("click", startGame);
+
+function startGame() {
+    let p1name;
+    let p2name;
+    do {
+    p1name = prompt("Player 1, what's your name?");
+    p2name = prompt("Player 2, what's your name?");
+    } while (!p1name || !p2name);
     const player1 = new Player(p1name, 1);
     const player2 = new Player(p2name, 2);
     const board = new Gameboard();
     const displayman = new DisplayManager();
     const GM = new GameManager(player1, player2, board, displayman);
     GM.newGame();
-});
-
+}
