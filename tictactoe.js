@@ -2,7 +2,6 @@
 
 function Gameboard() {
     const board = new Array(3).fill(null).map(() => new Array(3).fill(" "));
-    this.printBoard = () => console.log(board);
     this.addMark = function(mark, row, column) {
         if (board[row][column] === " ") {
         board[row][column] = mark;
@@ -24,10 +23,11 @@ function Gameboard() {
 // Player object constructor
 
 function Player(name, playerNumber) {
+    this.playerNumber = playerNumber;
     this.score = 0;
     this.name = name;
     this.getMark = function () {
-        if (playerNumber === 1) { 
+        if (this.playerNumber === 1) { 
             return "✖"; } 
             else { 
                 return "〇"; }
@@ -45,6 +45,7 @@ function DisplayManager() {
     this.p1nametext = document.getElementById("p1name");
     this.p2scoretext = document.getElementById("p2score");
     this.p2nametext = document.getElementById("p2name");
+    this.wintext = document.getElementById("wintext");
     this.gridcells = document.querySelectorAll(".grid");
     this.startbutton = document.getElementById("startgamebtn");
     this.restartbutton = document.getElementById("restartgamebtn");
@@ -55,20 +56,76 @@ function GameManager(player1, player2, board, displayman) {
     this.player1 = player1;
     this.player2 = player2;
     this.board = board;
+    this.displayManager = displayman;
+    this.gameOver;
     this.whoseTurn = this.player1;
+    this.lastWinner;
+    this.newGame = function () {
+        this.grfStart();
+        this.initListeners();
+        this.grfUpdate();
+        this.gameOver = false;
+    }
+    // Initializes the graphics for the game 
+    this.grfStart = function () {
+        this.displayManager.startbutton.style.display = "none";
+        this.displayManager.p1nametext.textContent = this.player1.getName();
+        this.displayManager.p2nametext.textContent = this.player2.getName();
+        this.displayManager.p1scoretext.textContent = this.player1.getScore();
+        this.displayManager.p2scoretext.textContent = this.player2.getScore();
+        this.displayManager.wintext.style.display = "block";
+    }
+
+    this.grfUpdate = function () {
+        const boardState = this.board.getBoard();
+        this.displayManager.gridcells.forEach((cell, index) => {
+            const row = Math.floor(index / boardState.length);
+            const col = index % boardState.length;
+            cell.innerHTML = boardState[row][col];
+        });
+        if (this.gameOver) {
+            this.displayManager.wintext.textContent = (this.lastWinner.getName() + " wins!");
+            this.displayManager.restartbutton.style.display = "block";
+            if (this.lastWinner === this.player1) {
+                this.displayManager.p1scoretext.innerHTML = this.player1.getScore();
+                } else { this.displayManager.p2scoretext.innerHTML = this.player2.getScore();}
+            }
+        else {
+        this.displayManager.wintext.textContent = (this.whoseTurn.getName() + " your turn, make your move.");
+        }
+    }
+
+    this.initListeners = function () {
+        this.displayManager.gridcells.forEach((cell) => {
+            cell.addEventListener("click", () => this.playTurn(cell.getAttribute("x"), cell.getAttribute("y")))
+        });
+        this.displayManager.restartbutton.addEventListener("click", () => this.restartGame());
+    }
+
     this.changeTurn = function () {
         this.whoseTurn = this.whoseTurn === player1 ? player2 : player1;
     }
-    this.newGame = function () {
-        this.whoseTurn = this.player1;
-        this.board.resetBoard();
-        this.player1.resetScore();
-        this.player2.resetScore();
-        this.playTurn();
+    this.changeSides = function () {
+        if (this.player1.playerNumber === 1) {
+            this.whoseTurn = this.player2;
+            this.player1.playerNumber = 2;
+            this.player2.playerNumber = 1;
+        } else {
+            this.whoseTurn = this.player1;
+            this.player1.playerNumber = 1;
+            this.player2.playerNumber = 2;
+        }
     }
+    this.restartGame = function () {
+        this.displayManager.restartbutton.style.display = "none";
+        this.gameOver = false;
+        this.changeSides();
+        this.board.resetBoard();
+        this.grfUpdate();
+    }
+
     this.checkWinCondition = function () {
         const bsize = this.board.getBoard().length
-        console.log(bsize);
         function checkEquals(linetocheck) {
             return linetocheck.every(cell => cell !== " " && cell === linetocheck[0])
         }
@@ -112,36 +169,42 @@ function GameManager(player1, player2, board, displayman) {
         return null;
     }
 
-    this.playTurn = function () {
-        const x = prompt(this.whoseTurn.getName() + " select row to place your mark");
-        const y = prompt(this.whoseTurn.getName() + " select column to place your mark");
-        if (!this.board.addMark(this.whoseTurn.getMark(), x, y)) {
-            this.playTurn();
-        } else {
-            if (this.checkWinCondition()) {
-                this.board.printBoard();
-                this.endGame();
-            } else {
-                this.changeTurn();
-                this.board.printBoard();
-                this.playTurn();
-            }
-            
-        }
-    }
+    this.playTurn = function (x,y) {
+        if (!this.gameOver){
+            const row = x;
+            const col = y;
 
-    this.endGame = function () {
-        if (this.checkWinCondition() === "✖") {
-            console.log(this.player1.getName() + " wins");
+        if (this.board.addMark(this.whoseTurn.getMark(), row, col)) {
+        
+            if (this.checkWinCondition()) {
+                this.endGame();
+                this.grfUpdate();
+            }
+
+            this.changeTurn();
+            this.grfUpdate();
+            }
+        }
+            
+    }
+    
+
+    this.endGame = function() {
+        this.gameOver = true;
+
+        if (this.checkWinCondition() === this.player1.getMark()) {
+            this.lastWinner = this.player1;
             this.player1.addScore();
         }
         else {
-            console.log(this.player2.getName() + " wins");
+            this.lastWinner = this.player2
             this.player2.addScore();
         }
         
     }
+
 }
+
 
 const startbtn = document.getElementById("startgamebtn");
 
@@ -153,5 +216,6 @@ startbtn.addEventListener("click", function(){
     const board = new Gameboard();
     const displayman = new DisplayManager();
     const GM = new GameManager(player1, player2, board, displayman);
+    GM.newGame();
 });
 
