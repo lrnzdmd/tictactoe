@@ -78,20 +78,35 @@ function GameManager(player1, player2, board, displayman) {
 
     this.grfUpdate = function () {
         const boardState = this.board.getBoard();
+        let wintxt = this.displayManager.wintext;
+
         this.displayManager.gridcells.forEach((cell, index) => {
             const row = Math.floor(index / boardState.length);
             const col = index % boardState.length;
             cell.innerHTML = boardState[row][col];
         });
+
         if (this.gameOver) {
-            this.displayManager.wintext.textContent = (this.lastWinner.getName() + " wins!");
+            
+            
             this.displayManager.restartbutton.style.display = "block";
+        
             if (this.lastWinner === this.player1) {
+                
                 this.displayManager.p1scoretext.innerHTML = this.player1.getScore();
-                } else { this.displayManager.p2scoretext.innerHTML = this.player2.getScore();}
+                wintxt.textContent = (this.lastWinner.getName() + " wins!");
+                } else if (this.lastWinner === this.player2) { 
+                    this.displayManager.p2scoretext.innerHTML = this.player2.getScore();
+                    wintxt.textContent = (this.lastWinner.getName() + " wins!");
+                    return;
+
+                } else {
+                    wintxt.textContent = "Draw!";
+                    return;
+                }
             }
         else {
-        this.displayManager.wintext.textContent = (this.whoseTurn.getName() + " your turn, make your move.");
+            wintxt.textContent = (this.whoseTurn.getName() + " your turn, make your move.");
         }
     }
 
@@ -165,6 +180,10 @@ function GameManager(player1, player2, board, displayman) {
         if (checkEquals(secondiagcheck)) {
             return secondiagcheck[0];
         }
+        if (!this.board.getBoard().some(row => row.includes(" ")))
+            {
+            return "Draw";
+        }
 
         return null;
     }
@@ -196,13 +215,14 @@ function GameManager(player1, player2, board, displayman) {
             this.lastWinner = this.player1;
             this.player1.addScore();
         }
-        else {
+        else if (this.checkWinCondition() === this.player2.getMark()) {
             this.lastWinner = this.player2
             this.player2.addScore();
+        } else {
+            this.lastWinner = null;
         }
-        
     }
-
+    
 }
 
 
