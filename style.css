@@ -82,7 +82,7 @@ button {
     display:flex;
     justify-content: center;
     align-items: center;
-    font-size: 5vw;
+    font-size: calc(1rem + 8vh);
 }
 
 .grid[x="0"][y="1"]{

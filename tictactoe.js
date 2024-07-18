@@ -27,9 +27,9 @@ function Player(name, playerNumber) {
   this.name = name;
   this.getMark = function () {
     if (this.playerNumber === 1) {
-      return "✖";
+      return "✕";
     } else {
-      return "〇";
+      return "◯";
     }
   };
   this.getName = () => {
